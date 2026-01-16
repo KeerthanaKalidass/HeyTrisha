@@ -408,14 +408,16 @@ Contributions are welcome! Please follow these steps:
 - Test thoroughly before submitting PR
 
 ## 📝 License
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-This project is open source. Please specify your license here.
 
 ## 🆘 Support
 
 For issues, questions, or contributions:
 - Open an issue on GitHub
-- Contact: [Your Contact Information]
+- Contact: me@manikandanc.com
+
+## Feedback is always appreciated—if this plugin has been useful to you, please let the author know via email.
 
 ## 📚 Additional Resources
 
