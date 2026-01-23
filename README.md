@@ -378,6 +378,24 @@ heytrisha-woo/
 
 ### Testing
 
+#### Automated Tests
+
+Run the PHPUnit test suite with a single command:
+
+```bash
+cd api
+./vendor/bin/phpunit
+```
+
+This will run all unit and feature tests, including tests for the Intent Engine (query detection logic).
+
+**Test Coverage:**
+- **Intent Engine Tests** (`tests/Unit/IntentEngineTest.php`): Tests for query classification (fetch operations, capability questions, WordPress API operations)
+- **Unit Tests** (`tests/Unit/`): Isolated logic tests
+- **Feature Tests** (`tests/Feature/`): API endpoint tests
+
+#### Manual Testing
+
 1. Ensure the Laravel API is running
 2. Open WordPress admin panel
 3. The chatbot should appear in the bottom-right corner
@@ -391,13 +409,18 @@ heytrisha-woo/
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please follow these steps:
+Contributions are welcome! Please read our [Contributing Guidelines](CONTRIBUTING.md) before submitting a pull request.
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+**Quick Start:**
+
+1. Open an issue first to discuss your proposed changes
+2. Fork the repository
+3. Create a feature branch (`git checkout -b feature/AmazingFeature`)
+4. Write/update tests for your changes
+5. Run tests: `cd api && ./vendor/bin/phpunit`
+6. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+7. Push to the branch (`git push origin feature/AmazingFeature`)
+8. Open a Pull Request
 
 ### Development Guidelines
 
@@ -405,6 +428,7 @@ Contributions are welcome! Please follow these steps:
 - Use ESLint for JavaScript/React code
 - Write clear commit messages
 - Add comments for complex logic
+- **All contributions must include appropriate tests**
 - Test thoroughly before submitting PR
 
 ## 📝 License

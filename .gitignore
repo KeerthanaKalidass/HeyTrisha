@@ -69,7 +69,7 @@ api/storage/server.log
 test-page.html
 
 # Documentation and build scripts (exclude from git)
-*.md
+
 *.ps1
 *.bat
 *.sh
