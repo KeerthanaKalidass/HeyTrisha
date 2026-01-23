@@ -19,6 +19,7 @@ affiliations:
     index: 1
 date: 22 January 2026
 bibliography: paper.bib
+repository-url: https://github.com/manikandanchandran/HeyTrisha
 ---
 
 # Summary
@@ -35,6 +36,18 @@ The rapid expansion of e-commerce platforms has led to an explosion of structure
 
 This dichotomy presents a specific challenge in the field of Human-Data Interaction (HDI): how to translate informal human intent into rigid database logic without compromising security or system stability. While generic Large Language Model (LLM) tools exist, they often suffer from "hallucinations" when dealing with complex, proprietary schemas like those found in WordPress/WooCommerce [@OpenAI:2023].
 
+## State of the Field
+
+While Python-based ecosystem tools like LangChain [@Chase:2022] and LlamaIndex [@Liu:2023] provide generalized SQL agents, they often lack platform-specific context for legacy CMS schemas and require significant configuration to handle the Entity-Attribute-Value (EAV) patterns common in WordPress databases. These frameworks excel at general-purpose LLM orchestration but do not provide out-of-the-box support for the nuanced table relationships in WooCommerce (e.g., `wp_posts` with `post_type='shop_order'` joined to `wp_postmeta` for order details).
+
+Conversely, PHP-based e-commerce platforms like WooCommerce rely on proprietary analytics plugins (e.g., Metorik [@Gleason:2018], Conversific) which are closed-source and unsuitable for reproducible HCI research. These commercial solutions, while feature-rich, do not expose their query generation logic, making them inappropriate for scientific experiments requiring transparency and reproducibility.
+
+Specialized Text-to-SQL systems like Vanna.ai [@Vanna:2023] offer promising approaches but focus primarily on generic database schemas and lack the WordPress-specific security considerations (user capability checks, nonce validation) required for production CMS environments.
+
+HeyTrisha fills this gap by providing an open-source, PHP-native implementation that bridges modern NLU capabilities with legacy WordPress architectures. Unlike the aforementioned tools, HeyTrisha is purpose-built for the WordPress/WooCommerce ecosystem, providing researchers with a controlled environment to study NLIDB systems in real-world commercial settings.
+
+## Research Justification
+
 HeyTrisha addresses this scientific gap by abstracting data access through a strictly typed Adapter interface. The software allows researchers to experiment with Natural Language Interfaces to Databases in a real-world commercial environment [@Li:2014; @Popescu:2003]. It provides a standardized framework for translating vague human concepts (e.g., "how are we doing?") into precise, parameterized queries, significantly lowering the barrier for operational analytics research.
 
 # Software Architecture
@@ -46,6 +59,10 @@ HeyTrisha implements a modular, n-tier architecture designed to ensure platform 
 **The Adapter Interface**: A strict contract (Interface) that defines necessary analytics primitives (e.g., `fetch_orders`, `get_customer_cohorts`). This ensures that the Core can communicate with any data source that implements the interface.
 
 **The Execution Layer**: The reference implementation specifically maps the JSON IR to the WordPress database schema (`wp_posts`, `wp_postmeta`), handling the complexities of EAV (Entity-Attribute-Value) storage models common in CMS platforms.
+
+## Design Rationale
+
+We deliberately chose an intermediate JSON representation over direct Text-to-SQL generation to act as a deterministic "guardrail" layer, allowing researchers to intercept and validate intent before execution—a critical feature for adversarial safety studies. This architectural decision enables three key capabilities: (1) logging and auditing of user intent independent of execution, (2) swapping NLU backends without modifying the adapter layer, and (3) implementing domain-specific validation rules that would be difficult to enforce in raw SQL generation pipelines.
 
 ![HeyTrisha Data Flow Architecture. The process begins with natural language input, passes through semantic parsing and security validation, then routes through the Adapter Interface to platform-specific execution.\label{fig:architecture}](assets/img/heytrisha.jpeg)
 
@@ -121,6 +138,18 @@ HeyTrisha contributes to the scientific software ecosystem in three distinct way
 2. **Legacy System Modernization**: The software demonstrates a non-intrusive method for adding AI capabilities to legacy CMS architectures without refactoring the underlying database schema.
 
 3. **Educational Utility**: The clear separation of concerns (Core vs. Adapter) serves as an effective case study for software engineering curriculums focusing on modular design patterns and API integration.
+
+## Research Applications
+
+The modular architecture of HeyTrisha enables several controlled experiments in Human-Computer Interaction and Natural Language Processing:
+
+**Error Recovery Studies**: An HCI researcher could use HeyTrisha to compare the error recovery rates of non-technical users when given "fuzzy" vs. "precise" error messages, modifying only the Response Formatter while keeping the execution logic constant. This isolation of variables is difficult to achieve with monolithic analytics tools.
+
+**Intent Classification Benchmarking**: Researchers can swap the NLU backend (e.g., comparing GPT-4 vs. Claude vs. local models) while maintaining identical adapter logic, enabling controlled comparisons of intent classification accuracy across LLM providers.
+
+**Adversarial Robustness Testing**: The JSON IR layer provides a natural interception point for studying prompt injection attacks. Researchers can log attempted manipulations and measure the effectiveness of different guardrail strategies without risking production data.
+
+**User Study Environments**: The WordPress plugin architecture allows rapid deployment of HeyTrisha instances for user studies, with each instance configurable for different experimental conditions (e.g., varying levels of query suggestion, different response verbosity).
 
 # Acknowledgements
 
