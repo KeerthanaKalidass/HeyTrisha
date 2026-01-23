@@ -64,7 +64,7 @@ HeyTrisha implements a modular, n-tier architecture designed to ensure platform 
 
 We deliberately chose an intermediate JSON representation over direct Text-to-SQL generation to act as a deterministic "guardrail" layer, allowing researchers to intercept and validate intent before execution—a critical feature for adversarial safety studies. This architectural decision enables three key capabilities: (1) logging and auditing of user intent independent of execution, (2) swapping NLU backends without modifying the adapter layer, and (3) implementing domain-specific validation rules that would be difficult to enforce in raw SQL generation pipelines.
 
-![HeyTrisha Data Flow Architecture. The process begins with natural language input, passes through semantic parsing and security validation, then routes through the Adapter Interface to platform-specific execution.\label{fig:architecture}](assets/img/heytrisha.jpeg)
+![HeyTrisha Data Flow Architecture. The process begins with natural language input, passes through semantic parsing and security validation, then routes through the Adapter Interface to platform-specific execution.\label{fig:architecture}](assets/img/arch.png)
 
 # Key Functionalities
 
